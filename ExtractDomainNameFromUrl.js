@@ -15,6 +15,15 @@ function domainName(url){
             return finalFiltered[i]
         }
     }
+
+    // Shortest Solution
+        // return url.replace(/.+\/\/|www.|\..+/g, '')
+
+    // Best solution IMO + easy to read
+        // url = url.replace("https://", '');
+        // url = url.replace("http://", '');
+        // url = url.replace("www.", '');
+        // return url.split('.')[0];
 }
 
 const link1 = "http://google.com"
