@@ -54,43 +54,50 @@ function solution(input, markers) {
     let result = arr
 
     markers.forEach((element )=> { 
-    //     console.log(result, "result")
-    //     if(result.indexOf(element) >= 0){
-    //         result.splice(result.indexOf(element)+1, 1)
-    //         let temp = (result[result.indexOf(element)+1].split('\n'))
-    //         temp.splice(0, 1,)
-    //         // temp.unshift(result[result.indexOf(element)-1])
-    //         // result.splice(result.indexOf(element)-1, 1)
-    //         console.log(temp, '---')
-    //         result[result.indexOf(element)+1] = temp.join('\n')
-    //     }
-        
-    //     result = result.filter(item => !item.includes(element))
-        console.log(result)
-        let indexOfElement = 0
-        result.forEach((item, index) => {
-            if(item.includes(element)){
-                console.log(index,"xxxxxxxxxxxxxxxxxxx")
-                indexOfElement = index
+        let indexOfElement = null
+        for(let i=0; i< result.length-1; i++){
+            if(result[i].includes(element)){
+                if(indexOfElement !== null){
+                    i = i+1
+                }
+                indexOfElement = i
+                result.forEach((item, index) => {
+                    if(item.includes('\n')){
+                        if(index >= indexOfElement){
+                            let tempItem = item.split('\n')
+                            tempItem.splice(0, 1)
+                            result.splice(index, 1, `\n${tempItem.join('\n')}`)
+                        }
+                    }else{
+                        if(index >= indexOfElement){
+                            // console.log(result, index, 'before')
+                            // result.splice(index, 1)
+                            // console.log(result, 'after')
+                            if(!item.includes('\n')){
+                                result.splice(index, 1, '')
+                            }
+                            
+                        }
+                    }
+                })
             }
-            if(item.includes("\n")){
-                let temp = (item.replace(/\n/g, " ")).split(' ')
-                result.splice(index, 1 , temp)
-                // console.log(temp)
-                // console.log(result)
-            }
-            
-            if(index >= indexOfElement){
-                // console.log(item, true)
-            }
-        })
+        }
+        // console.log(result, indexOfElement)
     });
 
-    return result.join(" ")
+    result = result.filter(element => element !== '')
+    result.forEach((element, index) => {
+        if(result[index+1] != undefined && result[index+1].includes('\n')){
+            result.splice(index, result.length-1, `${element}${result[index+1]}`)
+        }
+    })
+
+    return result.join(' ')
 };
 
 // console.log(solution('this is the real deal, Man!!', [",", "!"]))
-// console.log(solution("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]))
+console.log(solution("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]))
 console.log(solution("Q @b\nu\ne -e f g", ["@", "-"]))
+// solution("Q @b\nu\ne -e f g", ["@", "-"])
 
 // ----UNSOLVED
